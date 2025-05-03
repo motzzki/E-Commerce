@@ -9,8 +9,6 @@ class CustomUser(AbstractUser):
     )
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
 
-
-
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
