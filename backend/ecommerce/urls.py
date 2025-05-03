@@ -6,7 +6,7 @@ from .views import ProductViewSet, RegisterView, LoginView, UserProfileView
 
 # Create a DefaultRouter to automatically generate API routes
 router = DefaultRouter()
-router.register(r'products', ProductViewSet)  # Register your ProductViewSet here
+router.register(r'products', ProductViewSet, basename='product')  # Register your ProductViewSet here
 
 # Define your URL patterns
 urlpatterns = [
