@@ -5,6 +5,7 @@ import ProductManager from "../components/employee/ProductManager.vue";
 import ProductList from "../components/customer/ProductList.vue";
 import Cart from "../components/customer/Cart.vue";
 import Checkout from "../components/customer/Checkout.vue";
+import Transactions from "@/components/employee/Transactions.vue";
 
 const routes = [
   { path: "/", redirect: "/login" },
@@ -13,6 +14,11 @@ const routes = [
   {
     path: "/employee/products",
     component: ProductManager,
+    meta: { requiresAuth: true, role: "employee" },
+  },
+  {
+    path: "/employee/transactions",
+    component: Transactions,
     meta: { requiresAuth: true, role: "employee" },
   },
   {

@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 from .serializers import ProductSerializer
-from .models import Product, OrderItem
-from .serializers import UserRegisterSerializer
+from .models import Product, OrderItem, Order
+from .serializers import UserRegisterSerializer, OrderSerializer
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
@@ -79,4 +79,17 @@ class UserProfileView(APIView):
 
     def get(self, request):
         user = request.user
-        return Response({"user_type": user.user_type}, status=status.HTTP_200_OK)
+        return Response({
+            "user_type": user.user_type,
+            "username": user.username,
+            "email": user.email,
+            "customerId": user.id,   
+            }, status=status.HTTP_200_OK)
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class OrderItemViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

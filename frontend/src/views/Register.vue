@@ -24,15 +24,50 @@
                   required
                 />
               </div>
+              <div class="mb-3 position-relative">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input
+                v-model="password"
+                :type="showPassword ? 'text' : 'password'"
+                class="form-control"
+                required
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                @click="showPassword = !showPassword"
+              >
+                {{ showPassword ? 'Hide' : 'Show' }}
+              </button>
+            </div>
+          </div>
+
+
               <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input
-                  v-model="password"
-                  type="password"
-                  class="form-control"
-                  required
-                />
+                <label class="form-label d-block">User Type</label>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="customer"
+                    value="customer"
+                    v-model="user_type"
+                  />
+                  <label class="form-check-label" for="customer">Customer</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="employee"
+                    value="employee"
+                    v-model="user_type"
+                  />
+                  <label class="form-check-label" for="employee">Employee</label>
+                </div>
               </div>
+
               <button class="btn btn-success w-100">Register</button>
               <div class="text-center mt-3">
                 <router-link to="/login"
@@ -47,15 +82,18 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref } from "vue";
-import axios from "../axios.js"; // Make sure axios is configured correctly
+import axios from "../axios.js";
 import { useRouter } from "vue-router";
 
 const username = ref("");
 const email = ref("");
 const password = ref("");
-const user_type = ref("customer"); // You can change this to employee if needed
+const showPassword = ref(false);
+const user_type = ref("customer"); // default selection
+
 const router = useRouter();
 
 const register = async () => {
@@ -66,9 +104,10 @@ const register = async () => {
       password: password.value,
       user_type: user_type.value,
     });
-    router.push("/login"); // Redirect to login after successful registration
+    router.push("/login");
   } catch (err) {
     alert("Registration failed");
   }
 };
 </script>
+

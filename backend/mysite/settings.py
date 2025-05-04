@@ -15,6 +15,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -99,7 +101,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '3307',
     }
 }
 

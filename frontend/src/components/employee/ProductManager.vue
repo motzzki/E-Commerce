@@ -1,10 +1,17 @@
 <template>
   <div class="container mt-4">
     <h2 class="mb-4 text-primary fw-bold">Product Manager</h2>
+    <div>
+      <nav>
+        <button class="btn btn-primary" @click="logout">Logout</button>
+      </nav>
+    </div>
 
     <button class="btn btn-success mb-3" @click="openCreateForm">
       <i class="bi bi-plus-lg me-1"></i> Add Product
     </button>
+
+    <button class="btn btn-primary" @click="openTransaction">Transactions</button>
 
     <!-- Product Table -->
     <div v-if="products.length">
@@ -27,7 +34,7 @@
               <td>
                 <img
                   v-if="product.image"
-                  :src="`/uploads/${product.image}`"
+                  :src="`${product.image}`"
                   alt="Product Image"
                   class="img-thumbnail"
                   style="width: 60px; height: 60px; object-fit: cover"
@@ -164,6 +171,11 @@ export default {
         this.products = res.data;
       });
     },
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userType");
+      this.$router.push("/login");
+    },
     openCreateForm() {
       this.resetForm();
       this.isEditing = false;
@@ -174,6 +186,9 @@ export default {
       this.selectedId = product.id;
       this.isEditing = true;
       this.showModal = true;
+    },
+    openTransaction(){
+      this.$router.push("transactions");
     },
     handleImage(e) {
       this.form.image = e.target.files[0];

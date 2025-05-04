@@ -1,5 +1,9 @@
 <template>
   <div class="container mt-4">
+    <router-link to="/customer/products" class="btn btn-secondary mb-3">
+      ← Back to Products
+    </router-link>
+
     <h2>Your Cart</h2>
     <table class="table" v-if="cart.length">
       <thead>
@@ -27,12 +31,13 @@
 
     <div class="mt-3" v-if="cart.length">
       <h5>Total: ${{ total }}</h5>
-      <router-link to="/customer/checkout" class="btn btn-primary"
-        >Proceed to Checkout</router-link
-      >
+      <router-link to="/customer/checkout" class="btn btn-primary">
+        Proceed to Checkout
+      </router-link>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
