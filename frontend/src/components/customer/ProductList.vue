@@ -1,31 +1,30 @@
 <template>
+  <CustomerNav />
   <div class="container mt-4">
     <h2>Product List</h2>
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <div>
-        <button class="btn btn-primary" @click="logout">Logout</button>
-        <router-link to="/customer/cart" class="btn btn-secondary ms-2">Cart</router-link>
-      </div>
       <!-- 🔍 Search Bar -->
       <input
         type="text"
         v-model="searchQuery"
-        class="form-control w-50"
+        class="form-control w-25"
         placeholder="Search products..."
       />
     </div>
 
     <div class="row">
-      <!-- Filtered Products -->
-      <div class="col-md-4" v-for="product in filteredProducts" :key="product.id">
+      <div
+        class="col-md-4"
+        v-for="product in filteredProducts"
+        :key="product.id"
+      >
         <div class="card mb-4">
-          <!-- 🖼️ Product Image -->
           <img
             v-if="product.image"
             :src="product.image"
             class="card-img-top"
             alt="Product Image"
-            style="height: 200px; object-fit: cover;"
+            style="height: 200px; object-fit: cover"
           />
           <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
@@ -43,8 +42,12 @@
 
 <script>
 import axios from "../../axios";
+import CustomerNav from "./CustomerNav.vue";
 
 export default {
+  components: {
+    CustomerNav,
+  },
   data() {
     return {
       products: [],
@@ -58,7 +61,9 @@ export default {
         return this.products; // If no search, return all products
       }
       return this.products.filter((product) => {
-        return product.name.toLowerCase().includes(this.searchQuery.toLowerCase()); // Filter products based on search query
+        return product.name
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase()); // Filter products based on search query
       });
     },
   },

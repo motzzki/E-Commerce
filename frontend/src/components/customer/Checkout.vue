@@ -1,4 +1,5 @@
 <template>
+  <CustomerNav />
   <div class="container mt-4">
     <h2>Checkout</h2>
     <p>Total amount: ${{ total }}</p>
@@ -15,13 +16,17 @@
 
 <script>
 import axios from "../../axios";
+import CustomerNav from "./CustomerNav.vue";
 
 export default {
+  components: {
+    CustomerNav,
+  },
   data() {
     return {
       cart: [],
-      address: "", // Optional if you're not using it in your model
-      customerId: null, // 🧠 You'll need to fetch or store the logged-in user's ID
+      address: "",
+      customerId: null,
     };
   },
   computed: {
@@ -33,29 +38,32 @@ export default {
   },
   methods: {
     submitOrder() {
-  const orderData = {
-    customer: this.customerId,
-    write_items: this.cart.map((item) => ({
-      product: item.id,
-      quantity: item.quantity,
-    })),
-  };
+      if (this.cart.length === 0) {
+        alert("Your cart is empty. Please add items before placing an order.");
+        return;
+      }
 
-  axios
-    .post("orders/", orderData)
-    .then(() => {
-      alert("Order placed successfully!");
-      localStorage.removeItem("cart");
-      this.$router.push("/customer/products");
-    })
-    .catch((err) => {
-      console.error(err);
-      alert("Something went wrong");
-    });
-}
-,
+      const orderData = {
+        customer: this.customerId,
+        write_items: this.cart.map((item) => ({
+          product: item.id,
+          quantity: item.quantity,
+        })),
+      };
+
+      axios
+        .post("orders/", orderData)
+        .then(() => {
+          alert("Order placed successfully!");
+          localStorage.removeItem("cart");
+          this.$router.push("/customer/products");
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Something went wrong");
+        });
+    },
     getUserInfo() {
-      // You could also get this from a Vuex store or JWT if you’ve got auth set up
       axios
         .get("/users/")
         .then((res) => {
@@ -72,4 +80,3 @@ export default {
   },
 };
 </script>
-

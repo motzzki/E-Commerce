@@ -1,5 +1,5 @@
 # serializers.py
-
+from django.db import transaction
 from rest_framework import serializers
 from .models import Product, CustomUser, Order, OrderItem
 
@@ -35,6 +35,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class OrderItemWriteSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+
     class Meta:
         model = OrderItem
         fields = ['product', 'quantity']
@@ -51,7 +53,25 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         items_data = validated_data.pop('write_items')
-        order = Order.objects.create(**validated_data)
-        for item_data in items_data:
-            OrderItem.objects.create(order=order, **item_data)
+
+        with transaction.atomic():
+            order = Order.objects.create(**validated_data)
+
+            for item_data in items_data:
+                product = item_data['product']
+                quantity = item_data['quantity']
+
+                if product.stock < quantity:
+                    raise serializers.ValidationError(f"Not enough stock for '{product.name}'")
+
+                product.stock -= quantity
+                product.save()
+
+                OrderItem.objects.create(order=order, product=product, quantity=quantity)
+
         return order
+
+
+
+    
+    

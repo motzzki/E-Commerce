@@ -1,21 +1,13 @@
 <template>
+  <EmployeeNav />
   <div class="container mt-5">
     <!-- Page Title -->
     <h2 class="custom-title mb-4">Product Manager</h2>
-
-    <div class="d-flex justify-content-end mb-3">
-      <button class="btn custom-btn" @click="logout">Logout</button>
-    </div>
 
     <div class="mb-3">
       <!-- Add Product Button -->
       <button class="btn btn-success custom-btn" @click="openCreateForm">
         <i class="bi bi-plus-lg me-1"></i> Add Product
-      </button>
-
-      <!-- Transactions Button -->
-      <button class="btn btn-primary custom-btn ms-2" @click="openTransaction">
-        Transactions
       </button>
     </div>
 
@@ -24,54 +16,39 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         <div class="col" v-for="product in products" :key="product.id">
           <div class="card h-100">
-            <img :src="product.image || 'https://via.placeholder.com/286x180.png?text=No+Image'" class="card-img-top"
-              alt="Product Image" style="object-fit: cover; height: 180px;" />
+            <img
+              :src="
+                product.image ||
+                'https://via.placeholder.com/286x180.png?text=No+Image'
+              "
+              class="card-img-top"
+              alt="Product Image"
+              style="object-fit: cover; height: 180px"
+            />
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">{{ product.name }}</h5>
               <p class="card-text">{{ product.description }}</p>
-              <p class="fw-bold mb-2">${{ product.price }}</p>
+              <p class="fw-bold mb-1">Price: ${{ product.price }}</p>
+              <p class="text-muted mb-2">Stock: {{ product.stock }}</p>
+              <!-- Stock added here -->
               <div class="mt-auto">
-                <button class="btn btn-sm btn-warning me-2" @click="openEditForm(product)">Edit</button>
-                <button class="btn btn-sm btn-danger" @click="deleteProduct(product.id)">Delete</button>
+                <button
+                  class="btn btn-sm btn-warning me-2"
+                  @click="openEditForm(product)"
+                >
+                  Edit
+                </button>
+                <button
+                  class="btn btn-sm btn-danger"
+                  @click="deleteProduct(product.id)"
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- <div class="table-responsive">
-        <table class="table table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Image</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="product in products" :key="product.id">
-              <td>{{ product.name }}</td>
-              <td>{{ product.description }}</td>
-              <td>${{ product.price }}</td>
-              <td>
-                <img v-if="product.image" :src="`${product.image}`" alt="Product Image" class="img-thumbnail"
-                  style="width: 60px; height: 60px; object-fit: cover" />
-                <span v-else class="text-muted">No image</span>
-              </td>
-              <td>
-                <button class="btn btn-sm btn-warning me-2" @click="openEditForm(product)">
-                  Edit
-                </button>
-                <button class="btn btn-sm btn-danger" @click="deleteProduct(product.id)">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
     </div>
 
     <!-- No Products Available -->
@@ -88,32 +65,59 @@
               <h5 class="modal-title custom-title">
                 {{ isEditing ? "Edit" : "Add" }} Product
               </h5>
-              <button type="button" class="btn-close" @click="closeModal"></button>
+              <button
+                type="button"
+                class="btn-close"
+                @click="closeModal"
+              ></button>
             </div>
             <div class="modal-body">
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Name</label>
-                  <input v-model="form.name" class="form-control custom-input" placeholder="Enter product name"
-                    required />
+                  <input
+                    v-model="form.name"
+                    class="form-control custom-input"
+                    placeholder="Enter product name"
+                    required
+                  />
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Price</label>
-                  <input type="number" v-model="form.price" class="form-control custom-input" placeholder="e.g. 29.99"
-                    required />
+                  <input
+                    type="number"
+                    v-model="form.price"
+                    class="form-control custom-input"
+                    placeholder="e.g. 29.99"
+                    required
+                  />
                 </div>
                 <div class="col-12">
                   <label class="form-label">Description</label>
-                  <textarea v-model="form.description" class="form-control custom-input" placeholder="Product details"
-                    rows="3" required></textarea>
+                  <textarea
+                    v-model="form.description"
+                    class="form-control custom-input"
+                    placeholder="Product details"
+                    rows="3"
+                    required
+                  ></textarea>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Stock</label>
-                  <input type="number" v-model="form.stock" class="form-control custom-input" required />
+                  <input
+                    type="number"
+                    v-model="form.stock"
+                    class="form-control custom-input"
+                    required
+                  />
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Image</label>
-                  <input type="file" @change="handleImage" class="form-control custom-input" />
+                  <input
+                    type="file"
+                    @change="handleImage"
+                    class="form-control custom-input"
+                  />
                 </div>
               </div>
             </div>
@@ -136,8 +140,13 @@
 
 <script>
 import axios from "../../axios";
+import EmployeeNav from "./EmployeeNav.vue";
 
 export default {
+  components: {
+    EmployeeNav,
+  },
+
   data() {
     return {
       products: [],
@@ -175,7 +184,7 @@ export default {
       this.isEditing = true;
       this.showModal = true;
     },
-    openTransaction(){
+    openTransaction() {
       this.$router.push("transactions");
     },
     handleImage(e) {
@@ -237,7 +246,7 @@ export default {
 
 <style scoped>
 .custom-title {
-  font-family: 'Kalnia', sans-serif;
+  font-family: "Kalnia", sans-serif;
   font-weight: bold;
   color: #6b4f3b; /* Earthy brown */
 }
