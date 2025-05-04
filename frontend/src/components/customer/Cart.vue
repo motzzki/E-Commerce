@@ -1,4 +1,4 @@
-
+<template>
   <CustomerNav />
   <div class="container mt-4">
     <router-link to="/customer/products" class="btn btn-secondary mb-3">
