@@ -2,50 +2,49 @@
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <div class="card shadow">
+        <div class="card shadow custom-card">
           <div class="card-body">
-            <h3 class="card-title text-center mb-4">Register</h3>
+            <h3 class="card-title text-center mb-4 custom-title">Register</h3>
             <form @submit.prevent="register">
               <div class="mb-3">
-                <label class="form-label">Username</label>
+                <label class="form-label custom-label">Username</label>
                 <input
                   v-model="username"
                   type="text"
-                  class="form-control"
+                  class="form-control custom-input"
                   required
                 />
               </div>
               <div class="mb-3">
-                <label class="form-label">Email</label>
+                <label class="form-label custom-label">Email</label>
                 <input
                   v-model="email"
                   type="email"
-                  class="form-control"
+                  class="form-control custom-input"
                   required
                 />
               </div>
               <div class="mb-3 position-relative">
-            <label class="form-label">Password</label>
-            <div class="input-group">
-              <input
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
-                class="form-control"
-                required
-              />
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                @click="showPassword = !showPassword"
-              >
-                {{ showPassword ? 'Hide' : 'Show' }}
-              </button>
-            </div>
-          </div>
-
+                <label class="form-label custom-label">Password</label>
+                <div class="input-group">
+                  <input
+                    v-model="password"
+                    :type="showPassword ? 'text' : 'password'"
+                    class="form-control custom-input"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary custom-btn"
+                    type="button"
+                    @click="showPassword = !showPassword"
+                  >
+                    {{ showPassword ? 'Hide' : 'Show' }}
+                  </button>
+                </div>
+              </div>
 
               <div class="mb-3">
-                <label class="form-label d-block">User Type</label>
+                <label class="form-label custom-label d-block">User Type</label>
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
@@ -68,11 +67,11 @@
                 </div>
               </div>
 
-              <button class="btn btn-success w-100">Register</button>
+              <button class="btn btn-success w-100 custom-btn">Register</button>
               <div class="text-center mt-3">
-                <router-link to="/login"
-                  >Already have an account? Login</router-link
-                >
+                <router-link class="custom-link" to="/login">
+                  Already have an account? Login
+                </router-link>
               </div>
             </form>
           </div>
@@ -81,7 +80,6 @@
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref } from "vue";
@@ -111,3 +109,47 @@ const register = async () => {
 };
 </script>
 
+<style scoped>
+.custom-card {
+  background-color: #f5f5f5;
+  border-color: #6b4f3b; /* Earthy brown */
+}
+
+.custom-title {
+  font-family: 'Kalnia', sans-serif;
+  font-weight: bold;
+  color: #6b4f3b;
+}
+
+.custom-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: #4e3629; /* Dark brown */
+}
+
+.custom-input {
+  border-color: #bfa58d; /* Lighter brown */
+}
+
+.custom-btn {
+  background-color: #6b4f3b; /* Earthy brown */
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover {
+  background-color: #4e3629; /* Dark brown */
+}
+
+.custom-link {
+  font-family: 'Montserrat', sans-serif;
+  color: #6b4f3b;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.custom-link:hover {
+  color: #4e3629;
+}
+</style>

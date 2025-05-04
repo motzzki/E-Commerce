@@ -1,21 +1,45 @@
 <template>
-  <div class="container mt-4">
-    <h2 class="mb-4 text-primary fw-bold">Product Manager</h2>
-    <div>
-      <nav>
-        <button class="btn btn-primary" @click="logout">Logout</button>
-      </nav>
+  <div class="container mt-5">
+    <!-- Page Title -->
+    <h2 class="custom-title mb-4">Product Manager</h2>
+
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn custom-btn" @click="logout">Logout</button>
     </div>
 
-    <button class="btn btn-success mb-3" @click="openCreateForm">
-      <i class="bi bi-plus-lg me-1"></i> Add Product
-    </button>
+    <div class="mb-3">
+      <!-- Add Product Button -->
+      <button class="btn btn-success custom-btn" @click="openCreateForm">
+        <i class="bi bi-plus-lg me-1"></i> Add Product
+      </button>
 
-    <button class="btn btn-primary" @click="openTransaction">Transactions</button>
+      <!-- Transactions Button -->
+      <button class="btn btn-primary custom-btn ms-2" @click="openTransaction">
+        Transactions
+      </button>
+    </div>
 
     <!-- Product Table -->
     <div v-if="products.length">
-      <div class="table-responsive">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col" v-for="product in products" :key="product.id">
+          <div class="card h-100">
+            <img :src="product.image || 'https://via.placeholder.com/286x180.png?text=No+Image'" class="card-img-top"
+              alt="Product Image" style="object-fit: cover; height: 180px;" />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text">{{ product.description }}</p>
+              <p class="fw-bold mb-2">${{ product.price }}</p>
+              <div class="mt-auto">
+                <button class="btn btn-sm btn-warning me-2" @click="openEditForm(product)">Edit</button>
+                <button class="btn btn-sm btn-danger" @click="deleteProduct(product.id)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead class="table-light">
             <tr>
@@ -32,34 +56,25 @@
               <td>{{ product.description }}</td>
               <td>${{ product.price }}</td>
               <td>
-                <img
-                  v-if="product.image"
-                  :src="`${product.image}`"
-                  alt="Product Image"
-                  class="img-thumbnail"
-                  style="width: 60px; height: 60px; object-fit: cover"
-                />
+                <img v-if="product.image" :src="`${product.image}`" alt="Product Image" class="img-thumbnail"
+                  style="width: 60px; height: 60px; object-fit: cover" />
                 <span v-else class="text-muted">No image</span>
               </td>
               <td>
-                <button
-                  class="btn btn-sm btn-warning me-2"
-                  @click="openEditForm(product)"
-                >
+                <button class="btn btn-sm btn-warning me-2" @click="openEditForm(product)">
                   Edit
                 </button>
-                <button
-                  class="btn btn-sm btn-danger"
-                  @click="deleteProduct(product.id)"
-                >
+                <button class="btn btn-sm btn-danger" @click="deleteProduct(product.id)">
                   Delete
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
     </div>
+
+    <!-- No Products Available -->
     <div v-else>
       <p class="text-muted">No products available.</p>
     </div>
@@ -70,62 +85,35 @@
         <div class="modal-content">
           <form @submit.prevent="submitProduct">
             <div class="modal-header">
-              <h5 class="modal-title">
+              <h5 class="modal-title custom-title">
                 {{ isEditing ? "Edit" : "Add" }} Product
               </h5>
-              <button
-                type="button"
-                class="btn-close"
-                @click="closeModal"
-              ></button>
+              <button type="button" class="btn-close" @click="closeModal"></button>
             </div>
             <div class="modal-body">
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Name</label>
-                  <input
-                    v-model="form.name"
-                    class="form-control"
-                    placeholder="Enter product name"
-                    required
-                  />
+                  <input v-model="form.name" class="form-control custom-input" placeholder="Enter product name"
+                    required />
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Price</label>
-                  <input
-                    type="number"
-                    v-model="form.price"
-                    class="form-control"
-                    placeholder="e.g. 29.99"
-                    required
-                  />
+                  <input type="number" v-model="form.price" class="form-control custom-input" placeholder="e.g. 29.99"
+                    required />
                 </div>
                 <div class="col-12">
                   <label class="form-label">Description</label>
-                  <textarea
-                    v-model="form.description"
-                    class="form-control"
-                    placeholder="Product details"
-                    rows="3"
-                    required
-                  ></textarea>
+                  <textarea v-model="form.description" class="form-control custom-input" placeholder="Product details"
+                    rows="3" required></textarea>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Stock</label>
-                  <input
-                    type="number"
-                    v-model="form.stock"
-                    class="form-control"
-                    required
-                  />
+                  <input type="number" v-model="form.stock" class="form-control custom-input" required />
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Image</label>
-                  <input
-                    type="file"
-                    @change="handleImage"
-                    class="form-control"
-                  />
+                  <input type="file" @change="handleImage" class="form-control custom-input" />
                 </div>
               </div>
             </div>
@@ -133,7 +121,7 @@
               <button class="btn btn-secondary" @click="closeModal">
                 Cancel
               </button>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary custom-btn">
                 {{ isEditing ? "Update" : "Create" }}
               </button>
             </div>
@@ -248,6 +236,27 @@ export default {
 </script>
 
 <style scoped>
+.custom-title {
+  font-family: 'Kalnia', sans-serif;
+  font-weight: bold;
+  color: #6b4f3b; /* Earthy brown */
+}
+
+.custom-btn {
+  background-color: #6b4f3b; /* Earthy brown */
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover {
+  background-color: #4e3629; /* Dark brown */
+}
+
+.custom-input {
+  border-color: #bfa58d; /* Lighter brown for input border */
+}
+
 .img-thumbnail {
   border: 1px solid #ccc;
   border-radius: 0.5rem;
