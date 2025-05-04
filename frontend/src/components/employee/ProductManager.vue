@@ -4,7 +4,7 @@
     <h2 class="custom-title mb-4">Product Manager</h2>
 
     <div class="d-flex justify-content-end mb-3">
-      <button class="btn custom-btn" @click="logout">Logout</button>
+       <button class="btn custom-btn" @click="logout">Logout</button>
     </div>
 
     <div class="mb-3">
@@ -29,49 +29,18 @@
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">{{ product.name }}</h5>
               <p class="card-text">{{ product.description }}</p>
+              <p class="card-text">{{ product.stock  }} stocks left</p>
               <p class="fw-bold mb-2">${{ product.price }}</p>
               <div class="mt-auto">
-                <button class="btn btn-sm btn-warning me-2" @click="openEditForm(product)">Edit</button>
-                <button class="btn btn-sm btn-danger" @click="deleteProduct(product.id)">Delete</button>
+                <button class="btn btn-sm btn-warning me-2 button-edit" @click="openEditForm(product)">Edit</button>
+                <button class="btn btn-sm btn-danger button-delete" @click="deleteProduct(product.id)">Delete</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- <div class="table-responsive">
-        <table class="table table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Image</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="product in products" :key="product.id">
-              <td>{{ product.name }}</td>
-              <td>{{ product.description }}</td>
-              <td>${{ product.price }}</td>
-              <td>
-                <img v-if="product.image" :src="`${product.image}`" alt="Product Image" class="img-thumbnail"
-                  style="width: 60px; height: 60px; object-fit: cover" />
-                <span v-else class="text-muted">No image</span>
-              </td>
-              <td>
-                <button class="btn btn-sm btn-warning me-2" @click="openEditForm(product)">
-                  Edit
-                </button>
-                <button class="btn btn-sm btn-danger" @click="deleteProduct(product.id)">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
+
     </div>
 
     <!-- No Products Available -->
@@ -236,43 +205,180 @@ export default {
 </script>
 
 <style scoped>
+/* Title */
 .custom-title {
   font-family: 'Kalnia', sans-serif;
   font-weight: bold;
-  color: #6b4f3b; /* Earthy brown */
+  color: #6b4f3b;
+  font-size: 1.75rem;
+  line-height: 1.4;
 }
 
+/* Primary Themed Button */
 .custom-btn {
-  background-color: #6b4f3b; /* Earthy brown */
-  color: white;
+  font-family: 'Montserrat', sans-serif;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  background-color: #6b4f3b;
+  color: white;
+  border: 2px solid #6b4f3b;
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .custom-btn:hover {
-  background-color: #4e3629; /* Dark brown */
+  background-color: #3c2f2f;
+  border-color: #3c2f2f;
+  transform: scale(1.07);
+  box-shadow: 0 4px 12px rgba(76, 50, 36, 0.3);
+  cursor: pointer;
 }
 
+.custom-btn:active {
+  background-color: #2b1d17;
+  border-color: #2b1d17;
+}
+
+/* Edit Button */
+.button-edit {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #3b2a1f;
+  border: 2px solid #6b4f3b;
+  border-radius: 10px;
+  padding: 3px 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-edit:hover {
+  background-color: #6b4f3b;
+  color: #fffaf6;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(107, 79, 59, 0.2);
+}
+
+/* Delete Button */
+.button-delete {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fffaf6;
+  background-color: #7b3e2d;
+  border: 2px solid #7b3e2d;
+  border-radius: 10px;
+  padding: 3.5px 16px;
+  transition: all 0.3s ease;
+}
+
+.button-delete:hover {
+  background-color: #4e1f15;
+  border-color: #4e1f15;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(76, 37, 25, 0.3);
+}
+
+/* Inputs */
 .custom-input {
-  border-color: #bfa58d; /* Lighter brown for input border */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  background-color: #fffaf6;
+  border: 2px solid #bfa58d;
+  border-radius: 8px;
+  padding: 10px;
+  color: #4e3629;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.2s ease;
 }
 
-.img-thumbnail {
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
+.custom-input:hover {
+  border-color: #6b4f3b;
+  box-shadow: 0 0 5px rgba(107, 79, 59, 0.25);
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #00000050;
-  z-index: 1040;
+.custom-input:focus {
+  outline: none;
+  border-color: #6b4f3b;
+  background-color: #f2e6d9;
+  box-shadow: 0 0 8px rgba(107, 79, 59, 0.3);
 }
 
-.modal {
-  z-index: 1050;
+.custom-input::placeholder {
+  color: #4e3629;
 }
+
+/* Card */
+.card {
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(107, 79, 59, 0.1);
+  border: 2px solid #e5e0dc;
+  background-color: #fffaf6;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 18px rgba(107, 79, 59, 0.25);
+  border-color: #c7b6a3;
+  transform: translateY(-6px);
+}
+
+/* Card Title */
+.card-title {
+  font-family: 'Kalnia', serif;
+  color: #6b4f3b;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Card Text */
+.card-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #4e3629;
+}
+
+/* Modal Title */
+.modal-title {
+  font-family: 'Kalnia', serif;
+  color: #6b4f3b;
+  font-size: 1.5rem;
+}
+
+/* Modal Body */
+.modal-body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #3c2f2f;
+}
+
+/* List Items */
+.list-group-item {
+  font-family: 'Montserrat', sans-serif;
+  background-color: transparent;
+  border: none;
+  color: #3c2f2f;
+  padding-left: 0;
+  transition: background-color 0.3s ease, font-weight 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #e8dac7;
+  font-weight: 600;
+}
+
+/* H2 */
+h2 {
+  font-family: 'Kalnia', serif;
+  color: #6b4f3b;
+  font-size: 2rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+h2:hover {
+  color: #3c2f2f;
+}
+
 </style>
