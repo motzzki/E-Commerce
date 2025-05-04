@@ -131,6 +131,7 @@ const register = async () => {
   border-color: #bfa58d; /* Lighter brown */
 }
 
+/* Custom Button */
 .custom-btn {
   background-color: #6b4f3b; /* Earthy brown */
   color: white;
@@ -142,6 +143,7 @@ const register = async () => {
   background-color: #4e3629; /* Dark brown */
 }
 
+/* Custom Link */
 .custom-link {
   font-family: 'Montserrat', sans-serif;
   color: #6b4f3b;
@@ -152,4 +154,47 @@ const register = async () => {
 .custom-link:hover {
   color: #4e3629;
 }
+
+/* Custom Radio Button */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #6b4f3b; /* Earthy brown border */
+  background-color: #fffaf6; /* Light earthy tone */
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="radio"]:checked {
+  background-color: #6b4f3b; /* Earthy brown */
+  border-color: #6b4f3b; /* Darker brown border on checked */
+}
+
+input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+input[type="radio"]:focus {
+  outline: none;
+  border-color: #4e3629; /* Darker brown on focus */
+}
+
+input[type="radio"]:disabled {
+  background-color: #e5e0dc; /* Disabled state with a muted color */
+  border-color: #bfa58d; /* Lighter earthy brown */
+  cursor: not-allowed;
+}
 </style>
+
