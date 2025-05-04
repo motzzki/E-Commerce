@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
     <div class="container">
-      <span class="navbar-brand">MyApp</span>
+      <span class="navbar-brand">Glam Shop</span>
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto">
@@ -15,11 +15,6 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/customer/cart"
                 >Cart</router-link
-              >
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/customer/checkout"
-                >Checkout</router-link
               >
             </li>
           </template>

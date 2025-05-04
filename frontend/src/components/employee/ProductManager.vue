@@ -1,20 +1,24 @@
 <template>
   <EmployeeNav />
   <div class="container mt-5">
-    <!-- Page Title -->
-    <h2 class="custom-title mb-4">Product Manager</h2>
+    <h2 class="custom-title mb-4 text-center">Product Manager</h2>
 
-    <div class="mb-3">
-      <!-- Add Product Button -->
+    <div class="d-flex justify-content-between mb-4">
       <button class="btn btn-success custom-btn" @click="openCreateForm">
         <i class="bi bi-plus-lg me-1"></i> Add Product
       </button>
+
+      <input
+        v-model="searchQuery"
+        type="text"
+        class="form-control w-50"
+        placeholder="Search for products"
+      />
     </div>
 
-    <!-- Product Table -->
-    <div v-if="products.length">
+    <div v-if="filteredProducts.length">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-        <div class="col" v-for="product in products" :key="product.id">
+        <div class="col" v-for="product in filteredProducts" :key="product.id">
           <div class="card h-100">
             <img
               :src="
@@ -30,7 +34,6 @@
               <p class="card-text">{{ product.description }}</p>
               <p class="fw-bold mb-1">Price: ${{ product.price }}</p>
               <p class="text-muted mb-2">Stock: {{ product.stock }}</p>
-              <!-- Stock added here -->
               <div class="mt-auto">
                 <button
                   class="btn btn-sm btn-warning me-2"
@@ -51,12 +54,10 @@
       </div>
     </div>
 
-    <!-- No Products Available -->
     <div v-else>
-      <p class="text-muted">No products available.</p>
+      <p class="text-muted text-center">No products available.</p>
     </div>
 
-    <!-- Modal for Create/Edit -->
     <div v-if="showModal" class="modal d-block" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -160,7 +161,20 @@ export default {
         stock: "",
         image: null,
       },
+      searchQuery: "", // Search query for filtering
     };
+  },
+  computed: {
+    // Filter products based on the search query
+    filteredProducts() {
+      return this.products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          product.description
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())
+      );
+    },
   },
   methods: {
     fetchProducts() {
@@ -245,7 +259,6 @@ export default {
 </script>
 
 <style scoped>
-/* Title */
 .custom-title {
   font-family: "Kalnia", sans-serif;
   font-weight: bold;
@@ -254,7 +267,6 @@ export default {
   line-height: 1.4;
 }
 
-/* Primary Themed Button */
 .custom-btn {
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
@@ -281,7 +293,6 @@ export default {
   border-color: #2b1d17;
 }
 
-/* Edit Button */
 .button-edit {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
@@ -301,7 +312,6 @@ export default {
   box-shadow: 0 4px 10px rgba(107, 79, 59, 0.2);
 }
 
-/* Delete Button */
 .button-delete {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
@@ -321,7 +331,6 @@ export default {
   box-shadow: 0 4px 10px rgba(76, 37, 25, 0.3);
 }
 
-/* Inputs */
 .custom-input {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
@@ -351,7 +360,6 @@ export default {
   color: #4e3629;
 }
 
-/* Card */
 .card {
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(107, 79, 59, 0.1);
@@ -366,7 +374,6 @@ export default {
   transform: translateY(-6px);
 }
 
-/* Card Title */
 .card-title {
   font-family: "Kalnia", serif;
   color: #6b4f3b;
@@ -374,28 +381,24 @@ export default {
   font-weight: bold;
 }
 
-/* Card Text */
 .card-text {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   color: #4e3629;
 }
 
-/* Modal Title */
 .modal-title {
   font-family: "Kalnia", serif;
   color: #6b4f3b;
   font-size: 1.5rem;
 }
 
-/* Modal Body */
 .modal-body {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   color: #3c2f2f;
 }
 
-/* List Items */
 .list-group-item {
   font-family: "Montserrat", sans-serif;
   background-color: transparent;
@@ -410,7 +413,6 @@ export default {
   font-weight: 600;
 }
 
-/* H2 */
 h2 {
   font-family: "Kalnia", serif;
   color: #6b4f3b;
