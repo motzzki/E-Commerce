@@ -1,1 +1,3 @@
-![cat](https://github.com/user-attachments/assets/4a688189-fea6-4e37-a0f1-79060b8bcd83)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4a688189-fea6-4e37-a0f1-79060b8bcd83" width="400">
+</p>
